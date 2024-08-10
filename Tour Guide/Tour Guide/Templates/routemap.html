@@ -1,0 +1,497 @@
+<head>
+<link rel="stylesheet" href="https://unpkg.com/maplibre-gl/dist/maplibre-gl.css">
+<script src="https://unpkg.com/maplibre-gl/dist/maplibre-gl.js"></script>
+</head>
+<style type="text/css">
+    
+html, body {
+  margin: 0;
+  padding: 0;
+
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.route-settings {
+  padding: 5px
+}
+
+#my-map {
+  flex: 1;
+}
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 30px;
+  height: 17px;
+}
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 13px;
+  width: 13px;
+  left: 2px;
+  bottom: 2px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked+.slider {
+  background-color: #2196F3;
+}
+
+input:focus+.slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked+.slider:before {
+  -webkit-transform: translateX(13px);
+  -ms-transform: translateX(13px);
+  transform: translateX(13px);
+}
+.slider.round {
+  border-radius: 17px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+    
+</style>
+
+<div style="background: #ff9200; padding-left: 10px">
+  <h2>Tourify RoutMap</h2>
+  <table>
+    <tr>
+      <td><b>Source</b></td>
+      <td id="srcfill"></td>
+    </tr>
+    <tr>
+      <td><b>Destination</b></td>
+      <td id="destfill"></td>
+    </tr>
+    <!-- <tr>
+      <td><b>Estimated Distance</b></td>
+      <td id="destdest"></td>
+    </tr>
+    <tr>
+      <td><b>Estimated Time</b></td>
+      <td id="desttime"></td>
+    </tr> -->
+  </table>
+  <span>(Routing will take some time. kindly wait)</span>
+</div>
+<div class="route-settings" style="display: none;">
+  <label class="switch">
+    <input id="showDetails" type="checkbox" onclick="drawRoute()">
+    <span class="slider round"></span>
+  </label> 
+  Show route details
+</div>
+<div id="my-map"></div>
+
+<script type="text/javascript">
+function getUrlParams() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const params = {};
+  for (const [key, value] of urlParams.entries()) {
+    params[key] = value;
+  }
+  return params;
+}
+
+let curlat = curlong = ''
+let srcname = 'Your Location'
+if ("geolocation" in navigator) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+        curlat = position.coords.latitude;
+        curlong = position.coords.longitude;
+    });
+} else {
+    console.log("Geolocation is not supported by this browser.");
+}
+
+
+
+let latitude = ''
+let longitude = ''
+function getlatlong(locationName) {
+  return fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${locationName}`)
+    .then(response => response.json())
+    .then(data => {
+      
+      if (data.length > 0) {
+        var latitude = parseFloat(data[0].lat);
+        var longitude = parseFloat(data[0].lon);
+        var destname = data[0].display_name;
+        return [latitude, longitude, destname];
+      } else {
+        throw new Error('Location not found');
+      }
+    })
+    .catch(error => {
+      console.error('Error fetching location coordinates:', error);
+      throw error;
+    });
+}
+
+const params = getUrlParams();
+var destination = params.destination;
+const popup = new maplibregl.Popup();
+const myAPIKey = "6640783fd91f4f8381a2bc1d4a255787";
+const map = new maplibregl.Map({
+      container: 'my-map',
+      style: `https://maps.geoapify.com/v1/styles/klokantech-basic/style.json?apiKey=${myAPIKey}`,
+      
+      zoom: 8
+    });
+
+getlatlong(destination)
+  .then(([latitude, longitude, destname]) => {
+    map.setCenter([longitude, latitude]);
+    map.addControl(new maplibregl.NavigationControl());
+
+
+    const url = `https://nominatim.openstreetmap.org/reverse?lat=${curlat}&lon=${curlong}&format=json`;
+    fetch(url)
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        srcname = data.display_name; // Output location name to console
+         document.getElementById("srcfill").innerHTML = srcname;
+    })
+    .catch(error => {
+        console.error('There was a problem with the fetch operation:', error);
+    });
+
+    const fromWaypoint = [curlong, curlat]; 
+    const fromWaypointMarker = new maplibregl.Marker().setLngLat(fromWaypoint)
+      .setPopup(new maplibregl.Popup().setText(
+        srcname
+      )).addTo(map);
+
+    const toWaypoint = [longitude, latitude]; 
+    const toWaypointMarker = new maplibregl.Marker().setLngLat(toWaypoint)
+      .setPopup(new maplibregl.Popup().setText(
+        destname
+      )).addTo(map);
+
+    document.getElementById("destfill").innerHTML = destname;
+    document.getElementById("srcfill").innerHTML = srcname;
+
+    let routeData;
+    let routeStepsData;
+    let instructionsData;
+    let stepPointsData;
+
+    fetch(`https://api.geoapify.com/v1/routing?waypoints=lonlat:${fromWaypoint.join(",")}|lonlat:${toWaypoint.join(",")}&mode=hike&details=route_details,elevation&apiKey=${myAPIKey}`).then(res => res.json()).then(routeResult => {
+      routeData = routeResult;
+      const steps = [];
+      const instructions = [];
+      const stepPoints = [];
+
+      routeData.features[0].properties.legs.forEach((leg, legIndex) => {
+        todist(routeData.features[0].properties.distance)
+        tohour(routeData.features[0].properties.time)
+        const legGeometry = routeData.features[0].geometry.coordinates[legIndex];
+        leg.steps.forEach((step, index) => {
+          if (step.instruction) {
+            instructions.push({
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": legGeometry[step.from_index]
+              },
+              properties: {
+                text: step.instruction.text
+              }
+            });
+          }
+
+          if (index !== 0) {
+            stepPoints.push({
+              "type": "Feature",
+              "geometry": {
+                "type": "Point",
+                "coordinates": legGeometry[step.from_index]
+              },
+              properties: step
+            })
+          }
+
+          if (step.from_index === step.to_index) {
+            // destination point
+            return;
+          }
+
+          const stepGeometry = legGeometry.slice(step.from_index, step.to_index + 1);
+          steps.push({
+            "type": "Feature",
+            "geometry": {
+              "type": "LineString",
+              "coordinates": stepGeometry
+            },
+            properties: step
+          });
+        });
+      });
+
+      routeStepsData = {
+        type: "FeatureCollection",
+        features: steps
+      }
+
+      instructionsData = {
+        type: "FeatureCollection",
+        features: instructions
+      }
+
+      stepPointsData = {
+        type: "FeatureCollection",
+        features: stepPoints
+      }
+
+      map.addSource('route', {
+        type: 'geojson',
+        data: routeData
+      });
+
+      map.addSource('points', {
+        type: 'geojson',
+        data: instructionsData
+      });
+
+      addLayerEvents();
+      drawRoute();
+    }, err => console.log(err));
+
+    function drawRoute() {
+      if (!routeData) {
+        return;
+      }
+
+      if (map.getLayer('route-layer')) {
+        map.removeLayer('route-layer')
+      }
+
+      if (map.getLayer('points-layer')) {
+        map.removeLayer('points-layer')
+      }
+
+      if (document.getElementById("showDetails").checked) {
+        map.getSource('route').setData(routeStepsData);
+        map.addLayer({
+          'id': 'route-layer',
+          'type': 'line',
+          'source': 'route',
+          'layout': {
+            'line-join': "round",
+            'line-cap': "round"
+          },
+          'paint': {
+            'line-color': [
+              'match',
+              ['get', 'road_class'],
+              'motorway',
+              '#009933',
+              'trunk',
+              '#00cc99',
+              'primary',
+              '#009999',
+              'secondary',
+              '#00ccff',
+              'tertiary',
+              '#9999ff',
+              'residential',
+              '#9933ff',
+              'service_other',
+              '#ffcc66',
+              'unclassified',
+              '#666699',
+              /* other */
+              '#666699'
+            ],
+            'line-width': 8
+          }
+        });
+
+        map.getSource('points').setData(stepPointsData);
+        map.addLayer({
+          'id': 'points-layer',
+          'type': 'circle',
+          'source': 'points',
+          'paint': {
+            'circle-radius': 4,
+            'circle-color': "#ddd",
+            'circle-stroke-color': "#aaa",
+            'circle-stroke-width': 1,
+          }
+        });
+      } else {
+        map.getSource('route').setData(routeData);
+        map.addLayer({
+          'id': 'route-layer',
+          'type': 'line',
+          'source': 'route',
+          'layout': {
+            'line-cap': "round",
+            'line-join': "round"
+          },
+          'paint': {
+            'line-color': "#6084eb",
+            'line-width': 8
+          },
+          'filter': ['==', '$type', 'LineString']
+        });
+
+        map.getSource('points').setData(instructionsData);
+        map.addLayer({
+          'id': 'points-layer',
+          'type': 'circle',
+          'source': 'points',
+          'paint': {
+            'circle-radius': 4,
+            'circle-color': "#fff",
+            'circle-stroke-color': "#aaa",
+            'circle-stroke-width': 1,
+          }
+        });
+      }
+    }
+
+    function addLayerEvents() {
+      map.on('mouseenter', 'route-layer', () => {
+        map.getCanvas().style.cursor = 'pointer';
+      });
+
+      map.on('mouseleave', 'route-layer', () => {
+        map.getCanvas().style.cursor = '';
+      });
+
+      map.on('mouseenter', 'points-layer', () => {
+        map.getCanvas().style.cursor = 'pointer';
+      });
+
+      map.on('mouseleave', 'points-layer', () => {
+        map.getCanvas().style.cursor = '';
+      });
+
+      
+
+      map.on('click', 'route-layer', (e) => { 
+        if (document.getElementById("showDetails").checked) {   
+          const stepData = e.features[0].properties;
+          const propertiesToShow = ["surface", "elevation", "elevation_gain"];
+          const dataToShow = {};
+          propertiesToShow.forEach(property => {
+            if (stepData[property] || stepData[property] === 0) {
+              dataToShow[property] = stepData[property];
+            }
+          });
+
+          showPopup(dataToShow, e.lngLat);
+        } else {
+          
+          showPopup({
+            distance: `${e.features[0].properties.distance} m`,
+            time: `${e.features[0].properties.time} s`
+          }, e.lngLat);      
+        }
+        e.preventDefault();
+      });
+
+      map.on('click', 'points-layer', (e) => {
+        const properties = e.features[0].properties;
+        const point = e.features[0].geometry.coordinates;
+
+        if (properties.text) {
+          popup.setText(properties.text);
+          popup.setLngLat(point);
+          popup.addTo(map);
+          e.preventDefault();
+        }
+      });
+    }
+
+  })
+  .catch(error => {
+    console.error('Error fetching latitude and longitude:', error);
+    alert("We are sorry, unable to locate to this place")
+  });
+
+
+function showPopup(data, lngLat) {
+  console.log(data.distance)
+  let popupHtml = Object.keys(data).map(key => {
+    return `<div class="popup-property-container">
+              <span class="popup-property-label">${key}: </span>
+              <span class="popup-property-value">${data[key]}</span>
+            </div>`;
+  }).join('');
+
+  if (data.distance) {
+    popupHtml += `<div class="popup-property-container">
+                    <span class="popup-property-label">Distance: </span>
+                    <span class="popup-property-value">${data.distance}</span>
+                  </div>`;
+
+  }
+
+  // Create or update the popup
+  popup.setLngLat(lngLat);
+  popup.setHTML(popupHtml);
+  popup.addTo(map);
+}
+
+function tohour(seconds) {
+  if (typeof seconds !== 'number' || seconds < 0) {
+    return 'Invalid input';
+}
+
+  const hours = Math.floor(seconds / 3600);
+  const remainingSeconds = seconds % 3600;
+  const minutes = Math.floor(remainingSeconds / 60);
+
+if (hours === 0) {
+    var t = `${minutes} mins`;
+  } else if (minutes === 0) {
+    var t = `${hours} hour${hours > 1 ? 's' : ''}`;
+  } else {
+    var t = `${hours} hour${hours > 1 ? 's' : ''} and ${minutes} mins`;
+  }
+  document.getElementById("desttime").innerHTML = t;
+  
+}
+
+function todist(meters){
+  if (typeof meters !== 'number' || meters < 0) {
+    return 'Invalid input';
+  }
+  var d =  (meters / 1000).toFixed(2) + ' km';
+  document.getElementById("destdest").innerHTML = d;
+}
+</script>

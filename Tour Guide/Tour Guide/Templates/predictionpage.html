@@ -1,0 +1,131 @@
+{% include 'header.html' %} 
+    <div class="hero-wrap js-fullheight" style="background-image: url('{{ url_for('static', filename='images/bg_5.jpg') }}');">
+        <div class="overlay"></div>
+        <div class="container">
+            <div class="row no-gutters slider-text js-fullheight align-items-center" data-scrollax-parent="true">
+                <div class="col-md-7 ftco-animate">
+                    <span class="subheading">Welcome to Tourify</span>
+                    <h1 class="mb-4">The place you wanna explore is here</h1>
+                    <p class="caps">Travel to the any corner of the world, without going around in circles</p>
+                </div>
+                <a href="{{ url_for('static', filename='indiatravel.mp4') }}" class="icon-video popup-vimeo d-flex align-items-center justify-content-center mb-4">
+                    <span class="fa fa-play"></span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <section class="ftco-section ftco-no-pb ftco-no-pt">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="ftco-search d-flex justify-content-center">
+                        
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="ftco-section services-section" style="padding: 3rem 0rem !important">
+            <div class="container">
+                <div class="row d-flex">
+                    <div class="col-md-7 order-md-last heading-section pl-md-5 ftco-animate d-flex align-items-center">
+                        <div class="w-100">
+                            <span class="subheading">Here is the place</span>
+                            <h2 class="mb-4" >It's time to start your adventure</h2>
+                            <style type="text/css">
+                                th, td{
+                                    padding: 5px;
+                                    border-bottom: 1px solid #ebe1e1;
+                                }
+                                .services.color-4:after {
+                                    background: none !important;
+                                }
+                            </style>
+                            {% if preddata.placeavl == 0 %}
+                                <label style="font-size: 17px"><span id="placeavl1">Sorry there is No {{ preddata.type }} Available in your Preffered Location but</span> Here is the Recommended {{ preddata.type }}(s) Based On Your Preferences are listed below</label>
+                            {% endif %}
+                            <table style="color: black">
+                                <tr>
+                                   <td>Place</td>
+                                   <td id="predicted_place">{{ preddata.predicted_place }}</td>
+                                </tr>
+                                <tr>
+                                   <td>City</td>
+                                   <td id="recommended_city">{{ preddata.recommended_city }}</td>
+                                </tr>
+                                <tr>
+                                   <td>About</td>
+                                   <td style="text-align: justify;" id="recommended_place_desc">{{ preddata.recommended_place_desc }}</td>
+                                </tr>
+                                <tr>
+                                   <td>Ratings</td>
+                                   <td id="recommended_place_ratings">{{ preddata.recommended_place_ratings }}</td>
+                                </tr>
+                                <tr>
+                                   <td valign="top">Similar Suggestions</td>
+                                   <td id="recommendations">
+                                       {% for key, value in preddata.recommendations.items() %}
+                                            <li class="bullet">{{ value }}</li>
+                                        {% endfor %}
+                                   </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-md-5" >
+                        <style type="text/css">
+                            .h250{
+                                height: 250px;
+                            }
+                        </style>
+                        <div class="row">
+                            <div class="col-md-12 col-lg-6 d-flex align-self-stretch ftco-animate h250">
+                                <div class="services services-1 color-1 d-block img" style="background-image: url({{ url_for('static', filename='predimages/images_0.jpg') }});">
+                                </div>      
+                            </div>
+                            <div class="col-md-12 col-lg-6 d-flex align-self-stretch ftco-animate h250">
+                                <div class="services services-1 color-2 d-block img" style="background-image: url({{ url_for('static', filename='predimages/images_1.jpg') }});">
+                                </div>    
+                            </div>
+                            <div class="col-md-12 col-lg-6 d-flex align-self-stretch ftco-animate h250">
+                                <div class="services services-1 color-3 d-block img" style="background-image: url({{ url_for('static', filename='predimages/images_2.jpg') }});">
+                                </div>      
+                            </div>
+                            <div class="col-md-12 col-lg-6 d-flex align-self-stretch ftco-animate h250">
+                                <div class="services services-1 color-4 d-block img" style="background-image: url({{ url_for('static', filename='predimages/images_3.jpg') }});">
+                                </div>      
+                            </div>
+                            <div class="col-md-12 col-lg-6 d-flex align-self-stretch ftco-animate h250">
+                                <div class="services services-1 color-4 d-block img" style="background-image: url({{ url_for('static', filename='predimages/images_4.jpg') }});">
+                                </div>      
+                            </div>
+                            <div class="col-md-12 col-lg-6 d-flex align-self-stretch ftco-animate h250">
+                                <div class="services services-1 color-4 d-block img" style="background-image: url({{ url_for('static', filename='predimages/images_5.jpg') }});">
+                                </div>      
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <div style=" display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;">
+    <button type="button" id = 'location' style="text-align: center; padding: 10px; width: 30%;  background: #EF6C00;color: white;outline: none; border: none; border-radius: 100px;">Get Location</button>
+        </div>
+        
+
+        <a href="{{url_for('travelpage')}}"><div style="text-align: center; padding-bottom: 10px">Explore new location</div></a>
+{% include 'footer.html' %}
+
+
+
+<script type="text/javascript">
+    $("#location").click(function () {
+        var predicted_place = $("#predicted_place").html()
+        location.href = "http://localhost:5000/routemap?destination="+predicted_place
+    })
+</script>

@@ -1,0 +1,317 @@
+{% include 'header.html' %}	
+	<div class="hero-wrap js-fullheight" style="background-image: url('{{ url_for('static', filename='images/bg_5.jpg') }}');">
+		<div class="overlay"></div>
+		<div class="container">
+			<div class="row no-gutters slider-text js-fullheight align-items-center" data-scrollax-parent="true">
+				<div class="col-md-7 ftco-animate">
+					<span class="subheading">Welcome to Tourify</span>
+					<h1 class="mb-4">Discover Your Favorite Place with Us</h1>
+					<p class="caps">Travel to the any corner of the world, without going around in circles</p>
+				</div>
+				<a href="{{ url_for('static', filename='indiatravel.mp4') }}" class="icon-video popup-vimeo d-flex align-items-center justify-content-center mb-4">
+					<span class="fa fa-play"></span>
+				</a>
+			</div>
+		</div>
+	</div>
+
+	<section class="ftco-section ftco-no-pb ftco-no-pt">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="ftco-search d-flex justify-content-center">
+						<div class="row">
+							<div class="col-md-12 nav-link-wrap">
+								<div class="nav nav-pills text-center" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+									<a class="nav-link active mr-md-1" id="v-pills-1-tab" data-toggle="pill" href="#v-pills-1" role="tab" aria-controls="v-pills-1" aria-selected="true">Join us</a>
+
+									<a class="nav-link" id="v-pills-2-tab" data-toggle="pill" href="#v-pills-2" role="tab" aria-controls="v-pills-2" aria-selected="false">Login</a>
+
+								</div>
+							</div>
+							<div class="col-md-12 tab-wrap">
+								
+								<div class="tab-content" id="v-pills-tabContent">
+
+									<div class="tab-pane fade show active" id="v-pills-1" role="tabpanel" aria-labelledby="v-pills-nextgen-tab">
+										<form action="#" class="search-property-1">
+											<div class="row no-gutters">
+												<div class="col-md d-flex">
+													<div class="form-group p-4 border-0">
+														<label for="#">Name</label>
+														<div class="form-field">
+															<div class="icon"><span class="fa fa-user"></span></div>
+															<input type="text" id="username" class="form-control" placeholder="Name">
+														</div>
+													</div>
+												</div>
+												<div class="col-md d-flex">
+													<div class="form-group p-4 border-0">
+														<label for="#">Email</label>
+														<div class="form-field">
+															<div class="icon"><span class="fa fa-envelope"></span></div>
+															<input type="text" id="email" class="form-control" placeholder="Email">
+														</div>
+													</div>
+												</div>
+												<div class="col-md d-flex">
+													<div class="form-group p-4">
+														<label for="#">Phone</label>
+														<div class="form-field">
+															<div class="icon"><span class="fa fa-phone"></span></div>
+															<input type="number" id="phone" class="form-control" placeholder="Phone">
+														</div>
+													</div>
+												</div>
+												<div class="col-md d-flex">
+													<div class="form-group p-4">
+														<label for="#">Password</label>
+														<div class="form-field">
+															<div class="icon"><span class="fa fa-lock"></span></div>
+															<input type="password" id="password" class="form-control" placeholder="Password">
+														</div>
+													</div>
+												</div>
+												
+												<div class="col-md d-flex">
+													<div class="form-group d-flex w-100 border-0">
+														<div class="form-field w-100 align-items-center d-flex">
+															<input type="submit" value="Register" class="align-self-stretch form-control btn btn-primary" id="signupbtn"> 
+														</div>
+													</div>
+												</div>
+											</div>
+										</form>
+									</div>
+
+									<div class="tab-pane fade" id="v-pills-2" role="tabpanel" aria-labelledby="v-pills-performance-tab">
+										<form action="#" class="search-property-1">
+											<div class="row no-gutters">
+												<div class="col-md d-flex">
+													<div class="form-group p-4 border-0">
+														<label for="#">Phone</label>
+														<div class="form-field">
+															<div class="icon"><span class="fa fa-phone"></span></div>
+															<input type="number" id="signphone" class="form-control" placeholder="Phone">
+														</div>
+													</div>
+												</div>
+												<div class="col-md d-flex">
+													<div class="form-group p-4 border-0">
+														<label for="#">Password</label>
+														<div class="form-field">
+															<div class="icon"><span class="fa fa-envelope"></span></div>
+															<input type="password" id="signpassword" class="form-control" placeholder="Password">
+														</div>
+													</div>
+												</div>
+												<div class="col-md d-flex">
+													<div class="form-group p-4 border-0">
+														<label for="#">Agreement</label>
+														<div class="form-field">
+															<div class="icon"><span class="fa fa-key"></span></div>
+															<input type="text" class="form-control" value="By login you are agree with us" readonly="true">
+														</div>
+													</div>
+												</div>
+												<div class="col-lg d-flex">
+													<div class="form-group d-flex w-100 border-0">
+														<div class="form-field w-100 align-items-center d-flex">
+															<input type="submit" value="Login" class="align-self-stretch form-control btn btn-primary p-0" id="signinbtn">
+														</div>
+													</div>
+												</div>
+											</div>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section class="ftco-section services-section">
+			<div class="container">
+				<div class="row d-flex">
+					<div class="col-md-6 order-md-last heading-section pl-md-5 ftco-animate d-flex align-items-center">
+						<div class="w-100">
+							<span class="subheading">Welcome to tourify</span>
+							<h2 class="mb-4" >It's time to start your adventure</h2>
+							<p style="text-align: justify !important;">India's tourism spots offer a captivating tapestry of diversity and charm. From the timeless beauty of the Taj Mahal to the royal splendor of Rajasthan's forts, each destination tells a unique story. Whether it's the spiritual aura of Varanasi, the serene landscapes of Kerala's backwaters, or the bustling streets of Mumbai, every corner of India promises an unforgettable experience. Wildlife enthusiasts can explore the rich biodiversity of national parks, while adventurers can trek through the majestic Himalayas or relax on the sun-kissed beaches of Goa. With its blend of history, culture, and natural beauty, India beckons travelers from around the globe to embark on a journey of discovery and wonder.</p>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="row">
+							<div class="col-md-12 col-lg-6 d-flex align-self-stretch ftco-animate">
+								<div class="services services-1 color-1 d-block img" style="background-image: url({{ url_for('static', filename='images/services-1.jpg') }});">
+									<div class="icon d-flex align-items-center justify-content-center"><span class="flaticon-paragliding"></span></div>
+									<div class="media-body">
+										<h3 class="heading mb-3">Activities</h3>
+										<p>AI based amazing recommendation</p>
+									</div>
+								</div>      
+							</div>
+							<div class="col-md-12 col-lg-6 d-flex align-self-stretch ftco-animate">
+								<div class="services services-1 color-2 d-block img" style="background-image: url({{ url_for('static', filename='images/services-2.jpg') }});">
+									<div class="icon d-flex align-items-center justify-content-center"><span class="flaticon-route"></span></div>
+									<div class="media-body">
+										<h3 class="heading mb-3">Travel Blogs</h3>
+										<p>Explore the travel blocgs and vlogs</p>
+									</div>
+								</div>    
+							</div>
+							<div class="col-md-12 col-lg-6 d-flex align-self-stretch ftco-animate">
+								<div class="services services-1 color-3 d-block img" style="background-image: url({{ url_for('static', filename='images/services-3.jpg') }});">
+									<div class="icon d-flex align-items-center justify-content-center"><span class="flaticon-tour-guide"></span></div>
+									<div class="media-body">
+										<h3 class="heading mb-3">Travel Guide</h3>
+										<p>Get a free guidance with us </p>
+									</div>
+								</div>      
+							</div>
+							<div class="col-md-12 col-lg-6 d-flex align-self-stretch ftco-animate">
+								<div class="services services-1 color-4 d-block img" style="background-image: url({{ url_for('static', filename='images/services-4.jpg') }});">
+									<div class="icon d-flex align-items-center justify-content-center"><span class="flaticon-map"></span></div>
+									<div class="media-body">
+										<h3 class="heading mb-3">Location Manager</h3>
+										<p>Trace your location simply</p>
+									</div>
+								</div>      
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section class="ftco-section img ftco-select-destination" style="background-image: url({{ url_for('static', filename='images/bg_3.jpg') }});">
+			<div class="container">
+				<div class="row justify-content-center pb-4">
+					<div class="col-md-12 heading-section text-center ftco-animate">
+						<span class="subheading">Tourify Provide Places</span>
+						<h2 class="mb-4">Explore Your Destination</h2>
+					</div>
+				</div>
+			</div>
+			<div class="container container-2">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="carousel-destination owl-carousel ftco-animate">
+							<div class="item">
+								<div class="project-destination">
+									<a href="#" class="img" style="background-image: url({{ url_for('static', filename='images/place-1.jpg') }});">
+										<div class="text">
+											<h3>Kerala</h3>
+											<span>Trekking</span>
+										</div>
+									</a>
+								</div>
+							</div>
+							<div class="item">
+								<div class="project-destination">
+									<a href="#" class="img" style="background-image: url({{ url_for('static', filename='images/place-2.jpg') }});">
+										<div class="text">
+											<h3>Karnataka</h3>
+											<span>Hills</span>
+										</div>
+									</a>
+								</div>
+							</div>
+							<div class="item">
+								<div class="project-destination">
+									<a href="#" class="img" style="background-image: url({{ url_for('static', filename='images/place-3.jpg') }});">
+										<div class="text">
+											<h3>Tamilnadu</h3>
+											<span>Ocean</span>
+										</div>
+									</a>
+								</div>
+							</div>
+							<div class="item">
+								<div class="project-destination">
+									<a href="#" class="img" style="background-image: url({{ url_for('static', filename='images/place-4.jpg') }});">
+										<div class="text">
+											<h3>Nepal</h3>
+											<span>Ice Age</span>
+										</div>
+									</a>
+								</div>
+							</div>
+							<div class="item">
+								<div class="project-destination">
+									<a href="#" class="img" style="background-image: url({{ url_for('static', filename='images/place-5.jpg') }});">
+										<div class="text">
+											<h3>Kashmir</h3>
+											<span>Snow land</span>
+										</div>
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+{% include 'footer.html' %}
+
+<script type="text/javascript">
+ $(document).ready(function() {
+
+       $('#signinbtn').click(function(e) {
+       	  e.preventDefault(); 
+          var phone = $('#signphone').val();
+          var password = $('#signpassword').val();
+          if (phone && password) {
+              $.ajax({
+                  url: 'login',
+                  method: 'POST',
+                  data: {
+                      "phone": phone,
+                      "password": password
+                  },
+                  success: function(response) {
+                    if (response == 1){
+                       location.href = "{{ url_for('travelpage') }}"
+                    }else{
+                       alert("Invalid username and Password. Try again!")
+                    }
+                  }
+              });
+          } else {
+              alert('Please enter both phone and password.');
+          }
+      });
+
+      $("#signupbtn").click(function(e){
+      	  e.preventDefault(); 
+          username = $("#username").val();
+          email = $("#email").val();
+          phone = $("#phone").val();
+          password = $("#password").val();
+
+          // Check if any field is null
+          if (username == '' || email == '' || phone == ''  || password == '') {
+              alert("Enter mandatory Values");
+              return;
+          }else{
+           $.ajax({
+           type: "POST",
+           url: "adduser",
+           data: {
+               "username": username,
+               "email": email,
+               "phone": phone,
+               "password": password
+                 },
+                 success: function(response) {
+                     alert("User Registed Successfully! Login to continue.")
+                     $("#signintablink").click()
+                 }
+             });
+          }
+        })
+
+  });
+</script>

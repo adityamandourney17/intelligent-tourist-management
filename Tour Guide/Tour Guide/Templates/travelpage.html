@@ -1,0 +1,421 @@
+{% include 'header.html' %}	
+<div class="loader"></div>
+	<div class="hero-wrap js-fullheight" style="background-image: url('{{ url_for('static', filename='images/bg_5.jpg') }}');">
+		<div class="overlay"></div>
+		<div class="container">
+			<div class="row no-gutters slider-text js-fullheight align-items-center" data-scrollax-parent="true">
+				<div class="col-md-7 ftco-animate">
+					<span class="subheading">Welcome to Tourify</span>
+					<h1 class="mb-4">Discover Your Favorite Place with Us</h1>
+					<p class="caps">Travel to the any corner of the world, without going around in circles</p>
+				</div>
+				<a href="{{ url_for('static', filename='indiatravel.mp4') }}" class="icon-video popup-vimeo d-flex align-items-center justify-content-center mb-4">
+					<span class="fa fa-play"></span>
+				</a>
+			</div>
+		</div>
+	</div>
+
+	<section class="ftco-section ftco-no-pb ftco-no-pt">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="ftco-search d-flex justify-content-center">
+						<div class="row">
+							<div class="col-md-12 nav-link-wrap">
+								<div class="nav nav-pills text-center" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+									<a class="nav-link active mr-md-1" id="v-pills-1-tab" data-toggle="pill" href="#v-pills-1" role="tab" aria-controls="v-pills-1" aria-selected="true">AI Recommend</a>
+
+									<a class="nav-link" id="v-pills-2-tab" data-toggle="pill" href="#v-pills-2" role="tab" aria-controls="v-pills-2" aria-selected="false">My Search</a>
+
+								</div>
+							</div>
+							<div class="col-md-12 tab-wrap">
+								
+								<div class="tab-content" id="v-pills-tabContent">
+									<style type="text/css">
+										.seasons{
+											width: 100%;
+											border:none;
+											outline: none;
+										}
+										.seasons:focus{
+											border:none;
+											outline: none;
+										}
+										.loader{
+										    position:fixed;
+										    width:100%;
+										    left:0;right:0;top:0;bottom:0;
+										    background-color: rgba(255,255,255,0.7);
+										    z-index:9999;
+										    display:none;
+										}
+
+										@-webkit-keyframes spin {
+										  from {-webkit-transform:rotate(0deg);}
+										  to {-webkit-transform:rotate(360deg);}
+										}
+
+										@keyframes spin {
+										  from {transform:rotate(0deg);}
+										  to {transform:rotate(360deg);}
+										}
+
+										.loader::after {
+										    content:'';
+										    display:block;
+										    position:absolute;
+										    left:48%;top:40%;
+										    width:40px;height:40px;
+										    border-style:solid;
+										    border-color:black;
+										    border-top-color:transparent;
+										    border-width: 4px;
+										    border-radius:50%;
+										    -webkit-animation: spin .8s linear infinite;
+										    animation: spin .8s linear infinite;
+										}
+									</style>
+									<div class="tab-pane fade show active" id="v-pills-1" role="tabpanel" aria-labelledby="v-pills-nextgen-tab">
+										<form action="#" class="search-property-1">
+											<div class="row no-gutters">
+												<!-- <div class="col-md d-flex">
+													<div class="form-group p-4 border-0">
+														<label for="#">Seasons</label>
+														<div class="form-field">
+															<input list="seasons" class="seasons" id="timetovist" placeholder="Season">
+															<datalist id="seasons"  size="5">
+															  <option value="-February">February</option>
+						                                      <option value="March-June" selected>March-June</option>
+						                                      <option value="April-October">April-October</option>
+						                                      <option value="July-March">July-March</option>
+						                                      <option value="JulyOctober">July-October</option>
+						                                      <option value="September-February">September-February</option>
+						                                      <option value="September-March">September-March</option>
+						                                      <option value="September-June">September-June</option>
+						                                      <option value="October-February">October-February</option>
+						                                      <option value="OctoberMarch">October - March</option>
+						                                      <option value="October-May">October-May</option>
+						                                      <option value="October-June">October-June</option>   
+						                                      <option value="November-February">November-February</option>
+						                                      <option value="November-March">November-March</option>
+						                                      <option value="December-February">December-February</option> 
+															</datalist>  
+														</div>
+													</div>
+												</div> -->
+												<div class="col-md d-flex">
+													<div class="form-group p-4 border-0">
+														<label for="#">Type</label>
+														<div class="form-field">
+															<input list="typelist" class="seasons" id="traveltype"  placeholder="Type">
+															<datalist id="typelist">
+															 <option value="Valley" selected>Valley</option>
+					                                         <option value="Waterfall">Waterfall</option>
+					                                         <option value="Temple">Temple</option>
+					                                         <option value="Gufa">Gufa</option>
+					                                         <option value="Culture">Culture</option>
+					                                         <option value="Lake">Lake</option>
+					                                         <option value="Trek">Trek</option>
+					                                         <option value="Falls">Falls</option>
+					                                         <option value="Club">Club</option>
+					                                         <option value="Sanctuary">Sanctuary</option>
+					                                         <option value="Estate">Estate</option>
+					                                         <option value="Museum">Museum</option>
+					                                         <option value="Palace">Palace</option>
+					                                         <option value="Shopping">Shopping</option>
+					                                         <option value="Festival">Festival</option>
+					                                         <option value="Fort">Fort</option>
+					                                         <option value="Park">Park</option>
+					                                         <option value="Hills">Hills</option>
+					                                         <option value="Beach">Beach</option>
+					                                         <option value="Dam">Dam</option>
+					                                         <option value="Lighthouse">Lighthouse</option>
+					                                         <option value="Church">Church</option>
+					                                         <option value="Market">Market</option>
+					                                         <option value="Ghat">Ghat</option>
+					                                         <option value="Zoo">Zoo</option>
+					                                         <option value="Aquarium">Aquarium</option>
+					                                         <option value="Gram">Gram</option>
+					                                         <option value="Garden">Garden</option>
+					                                         <option value="Bazar">Bazar</option>
+					                                         <option value="Smarak">Smarak</option>
+					                                         <option value="Mahal">Mahal</option>
+					                                         <option value="View Point">View Point</option>
+					                                         <option value="Mutt">Mutt</option>
+					                                         <option value="Cave">Cave</option>
+					                                         <option value="Trail">Trail</option>
+															</datalist>  
+														</div>
+													</div>
+												</div>
+												<div class="col-md d-flex">
+													<div class="form-group p-4">
+														<label for="#">State</label>
+														<div class="form-field">
+															<input list="statelist" class="seasons" id="state"  placeholder="state">
+															<datalist id="statelist">
+															  	 <option value="" selected>Select State</option>
+						                                         <option value="Jammu and Kashmir">Jammu and Kashmir</option>
+						                                         <option value="Himachal Pradesh">Himachal Pradesh</option>
+						                                         <option value="Uttarakhand">Uttarakhand</option>
+						                                         <option value="Goa">Goa</option>
+						                                         <option value="Rajasthan" selected>Rajasthan</option>
+						                                         <option value="Kerala">Kerala</option>
+						                                         <option value="Tamil Nadu">Tamil Nadu</option>
+						                                         <option value="Uttar Pradesh">Uttar Pradesh</option>
+						                                         <option value="Maharashtra">Maharashtra</option>
+						                                         <option value="West Bengal">West Bengal</option>
+						                                         <option value="Punjab">Punjab</option>
+						                                         <option value="Delhi">Delhi</option>
+						                                         <option value="Andhra Pradesh">Andhra Pradesh</option>
+						                                         <option value="Telangana">Telangana</option>
+						                                         <option value="Karnataka">Karnataka</option>
+						                                         <option value="Jharkhand">Jharkhand</option>
+						                                         <option value="Assam">Assam</option>
+						                                         <option value="Gujarat">Gujarat</option>
+						                                         <option value="Sikkim">Sikkim</option>
+						                                         <option value="Odisha">Odisha</option>
+						                                         <option value="Bihar">Bihar</option>
+						                                         <option value="Meghalaya">Meghalaya</option>
+						                                         <option value="Tripura">Tripura</option>
+						                                         <option value="Haryana">Haryana</option>
+						                                         <option value="Manipur">Manipur</option>
+						                                         <option value="Mizoram">Mizoram</option>
+						                                         <option value="Madhya Pradesh">Madhya Pradesh</option>
+						                                         <option value="Chhattisgarh">Chhattisgarh</option>
+						                                         <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
+						                                         <option value="Lakshadweep">Lakshadweep</option>
+															</datalist>  
+														</div>
+													</div>
+												</div>
+												<div class="col-md d-flex">
+													<div class="form-group p-4">
+														<label for="#">City</label>
+														<div class="form-field">
+															<input list="citylist" class="seasons" id="city"  placeholder="City">
+															<datalist id="citylist">
+															  
+															</datalist>  
+														</div>
+													</div>
+												</div>
+												<div class="col-md d-flex">
+													<div class="form-group p-4">
+														<label for="#">Distance</label>
+														<div class="form-field">
+														<input type="number" class="form-control" id="distance"  placeholder="Distance(KM)">															
+														</div>
+													</div>
+												</div>
+												
+												<div class="col-md d-flex">
+													<div class="form-group d-flex w-100 border-0">
+														<div class="form-field w-100 align-items-center d-flex">
+															<input type="submit" value="Recommend" class="align-self-stretch form-control btn btn-primary" id="detectbtn">
+														</div>
+													</div>
+												</div>
+											</div>
+										</form>
+									</div>
+
+									<div class="tab-pane fade" id="v-pills-2" role="tabpanel" aria-labelledby="v-pills-performance-tab">
+										<form action="#" class="search-property-1">
+											<div class="row no-gutters">
+												<div class="col-md d-flex">
+													<div class="form-group p-4 border-0">
+														<label for="#">Search</label>
+														<div class="form-field">
+															<div class="icon"><span class="fa fa-search"></span></div>
+															<input type="text" id="searchinput" class="form-control" placeholder="Search by location...">
+														</div>
+													</div>
+												</div>
+												
+												<div class="col-lg d-flex">
+													<div class="form-group d-flex w-100 border-0">
+														<div class="form-field w-100 align-items-center d-flex">
+															<input type="submit" value="Search" class="align-self-stretch form-control btn btn-primary p-0" id="searchbtn">
+														</div>
+													</div>
+												</div>
+											</div>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section class="ftco-section services-section">
+			<div class="container">
+				<div class="row d-flex">
+					<div class="col-md-6 order-md-last heading-section pl-md-5 ftco-animate d-flex align-items-center">
+						<div class="w-100">
+							<span class="subheading">Welcome to tourify</span>
+							<h2 class="mb-4" >It's time to start your adventure</h2>
+							<p style="text-align: justify !important;">India's tourism spots offer a captivating tapestry of diversity and charm. From the timeless beauty of the Taj Mahal to the royal splendor of Rajasthan's forts, each destination tells a unique story. Whether it's the spiritual aura of Varanasi, the serene landscapes of Kerala's backwaters, or the bustling streets of Mumbai, every corner of India promises an unforgettable experience. Wildlife enthusiasts can explore the rich biodiversity of national parks, while adventurers can trek through the majestic Himalayas or relax on the sun-kissed beaches of Goa. With its blend of history, culture, and natural beauty, India beckons travelers from around the globe to embark on a journey of discovery and wonder.</p>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="row">
+							<div class="col-md-12 col-lg-6 d-flex align-self-stretch ftco-animate">
+								<div class="services services-1 color-1 d-block img" style="background-image: url({{ url_for('static', filename='images/services-1.jpg') }});">
+									<div class="icon d-flex align-items-center justify-content-center"><span class="flaticon-paragliding"></span></div>
+									<div class="media-body">
+										<h3 class="heading mb-3">Activities</h3>
+										<p>AI based amazing recommendation</p>
+									</div>
+								</div>      
+							</div>
+							<div class="col-md-12 col-lg-6 d-flex align-self-stretch ftco-animate">
+								<div class="services services-1 color-2 d-block img" style="background-image: url({{ url_for('static', filename='images/services-2.jpg') }});">
+									<div class="icon d-flex align-items-center justify-content-center"><span class="flaticon-route"></span></div>
+									<div class="media-body">
+										<h3 class="heading mb-3">Travel Blogs</h3>
+										<p>Explore the travel blocgs and vlogs</p>
+									</div>
+								</div>    
+							</div>
+							<div class="col-md-12 col-lg-6 d-flex align-self-stretch ftco-animate">
+								<div class="services services-1 color-3 d-block img" style="background-image: url({{ url_for('static', filename='images/services-3.jpg') }});">
+									<div class="icon d-flex align-items-center justify-content-center"><span class="flaticon-tour-guide"></span></div>
+									<div class="media-body">
+										<h3 class="heading mb-3">Travel Guide</h3>
+										<p>Get a free guidance with us </p>
+									</div>
+								</div>      
+							</div>
+							<div class="col-md-12 col-lg-6 d-flex align-self-stretch ftco-animate">
+								<div class="services services-1 color-4 d-block img" style="background-image: url({{ url_for('static', filename='images/services-4.jpg') }});">
+									<div class="icon d-flex align-items-center justify-content-center"><span class="flaticon-map"></span></div>
+									<div class="media-body">
+										<h3 class="heading mb-3">Location Manager</h3>
+										<p>Trace your location simply</p>
+									</div>
+								</div>      
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+
+{% include 'footer.html' %}
+
+      <script>
+         $(document).ready(function() {
+             var citiesByState = {
+                "Jammu and Kashmir": ["Leh Ladakh", "Srinagar", "Gulmarg"],
+                "Himachal Pradesh": ["Manali", "Mcleodganj", "Shimla", "Dalhousie", "Dharamshala", "Kasol", "Kullu", "Kasauli"],
+                "Uttarakhand": ["Rishikesh", "Nainital", "Mussoorie", "Jim Corbett National Park", "Almora", "Ranthambore", "Haridwar", "Dehradun"],
+                "Goa": ["Goa"],
+                "Rajasthan": ["Udaipur", "Jaipur", "Jodhpur", "Jaisalmer", "Mount Abu", "Pushkar", "Ajmer", "Chittorgarh"],
+                "Kerala": ["Coorg", "Munnar", "Varkala", "Alleppey", "Wayanad", "Kochi", "Kovalam", "Madikeri", "Poovar"],
+                "Tamil Nadu": ["Ooty", "Kodaikanal", "Chennai", "Mahabalipuram", "Madurai", "Thanjavur", "Rameshwaram", "Tirupati", "Kanyakumari"],
+                "Uttar Pradesh": ["Varanasi", "Agra", "Lucknow", "Mathura", "Vrindavan"],
+                "Maharashtra": ["Ahmednagar", "Akola", "Amravati", "Aurangabad", "Beed", "Bhandara", "Buldhana", "Chandrapur", "Dhule", "Gadchiroli", "Gondia", "Hingoli", "Jabalpur", "Jalgaon", "Jalna", "Kolhapur", "Latur", "Mumbai", "Nanded", "Nandurbar", "Parbhani", "Pune", "Raigad", "Ratnagiri", "Sangli", "Satara", "Sindhudurg", "Solapur", "Thane", "Wardha", "Washim", "Yavatmal", "Nashik", "Osmanabad", "Palghar", "Lonavala", "Pune", "Nashik", "Mahabaleshwar", "Alibaug"],
+                "West Bengal": ["Darjeeling", "Kolkata"],
+                "Punjab": ["Amritsar"],
+                "Delhi": ["Delhi"],
+                "Andhra Pradesh": ["Visakhapatnam", "Vijayawada"],
+                "Telangana": ["Hyderabad"],
+                "Karnataka": ["Bangalore", "Hampi", "Mysore", "Coimbatore"],
+                "Jharkhand": ["Ranchi"],
+                "Assam": ["Guwahati"],
+                "Gujarat": ["Ahmedabad", "Vadodara"],
+                "Sikkim": ["Gangtok"],
+                "Odisha": ["Bhubaneswar", "Puri"],
+                "Bihar": ["Patna"],
+                "Meghalaya": ["Cherrapunji"],
+                "Tripura": ["Agartala"],
+                "Haryana": ["Chandigarh"],
+                "Manipur": ["Imphal"],
+                "Mizoram": ["Aizawl"],
+                "Madhya Pradesh": ["Indore", "Gwalior", "Ujjain", "Bhopal"],
+                "Chhattisgarh": ["Raipur"],
+                "Andaman and Nicobar Islands": ["Andaman"],
+                "Lakshadweep": ["Lakshadweep"]
+              };
+
+           $('#state').change(function(){
+	           	$("#city").val('')
+	             var selectedState = $(this).val();
+	             var cities = citiesByState[selectedState];
+	            $('#citylist').empty();
+	            $('#citylist').append('<option value="">Select City</option>');
+	            
+	             if(selectedState !== ''){
+	               $.each(cities, function(i, city){
+	                 $('#citylist').append('<option value="'+city+'">'+city+'</option>');
+	               });
+	             }
+           });
+
+           $('#detectbtn').click(function(e) {
+           	  e.preventDefault(); 
+              // var timetovist = $('#timetovist').val();
+              var traveltype = $('#traveltype').val();
+              var distance = $('#distance').val();
+              var city = $('#city').val();
+              if (traveltype && distance && city){
+                  $.ajax({
+                      url: 'recommend',
+                      method: 'GET',
+                      type:"html",
+                      data: {
+                         
+                          "traveltype": traveltype,
+                          "distance": distance,
+                          "city":city
+                      },
+                      beforeSend: function(){
+				          $(".loader").show();
+				        },
+                      success: function(response) {
+                        $('body').html(response);
+                        $(".loader").hide();
+                      }
+                  });
+              } else {
+                  alert('Enter all the fields');
+              }
+          });
+
+
+           $('#searchbtn').click(function(e) {
+           	  e.preventDefault(); 
+              var searchinput = $('#searchinput').val();
+              if (searchinput){
+                  $.ajax({
+                      url: 'searchdata',
+                      method: 'GET',
+                      type:"html",
+                      data: {
+                          "searchdata": searchinput
+                      },
+                      beforeSend: function(){
+				          $(".loader").show();
+				        },
+                      success: function(response) {
+                        $('body').html(response);
+                        $(".loader").hide();
+                      }
+                  });
+              } else {
+                  alert('Enter all the fields');
+              }
+          });
+
+       });
+
+  
+      </script>
+     
